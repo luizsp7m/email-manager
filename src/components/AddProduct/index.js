@@ -12,20 +12,25 @@ export default function AddEmail({ setShowModal }) {
   return (
     <Container>
       <Form as="form" onSubmit={submit}>
-        <h1>Adicionar novo e-mail</h1>
+        <h1>Adicionar novo produto</h1>
 
         <div className="input-group">
-          <label>E-mail</label>
-          <input type="email" required="true" />
+          <label>Nome</label>
+          <input type="text" required="true" />
+        </div>
+
+        <div className="input-group">
+          <label>Código de rastreio</label>
+          <input type="text" required="true" />
         </div>
 
         <button type="submit">Adicionar</button>
 
-        <MdClose
-          size={20}
-          color="#C53030"
-          className="icon"
-          onClick={() => setShowModal(false)}
+        <MdClose 
+          size={20} 
+          color="#C53030" 
+          className="icon" 
+          onClick={() => setShowModal(false)} 
         />
       </Form>
     </Container>

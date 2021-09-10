@@ -1,5 +1,7 @@
 import { createContext, useState } from "react";
 
+import { firebaseApp, auth } from '../services/firebase';
+
 const AuthContext = createContext();
 
 function AuthProvider({ children }) {

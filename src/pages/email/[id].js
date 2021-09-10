@@ -1,18 +1,24 @@
 import { Container, Main, Table, Title, ItemContainer } from "../../styles/Home";
 
 import Header from '../../components/Header';
+import AddProduct from '../../components/AddProduct';
 
 import { FaEdit, FaTrashAlt } from 'react-icons/fa';
 
+import { useState } from "react";
+
 export default function Email() {
+  const [showModal, setShowModal] = useState(false);
+
   return (
     <Container>
+      { showModal && <AddProduct setShowModal={setShowModal} /> }
       <Header />
 
       <Main>
         <Title>
           <h1>Lista de produtos</h1>
-          <button>Adicionar produto</button>
+          <button onClick={() => setShowModal(true)}>Adicionar produto</button>
         </Title>
 
         <Table>
