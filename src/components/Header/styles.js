@@ -13,9 +13,12 @@ export const Navbar = styled.div`
   align-items: center;
   justify-content: space-between;
 
-  > h1 {
+  > a {
     color: #f0f0f5;
     cursor: pointer;
+    font-size: 2rem;
+    text-decoration: none;
+    font-weight: bold;
   }
 
   > div.navbar-nav {

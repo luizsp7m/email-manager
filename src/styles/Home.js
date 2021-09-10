@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 export const Container = styled.div`
-  
+  position: relative;
 `;
 
 export const Main = styled.div`
@@ -48,7 +48,7 @@ export const Table = styled.div`
   gap: 4rem; */
 `
 
-export const EmailContainer = styled.div`
+export const ItemContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -66,8 +66,10 @@ export const EmailContainer = styled.div`
     font-weight: 500;
 
     &:hover {
-      cursor: pointer;
-      text-decoration: underline;
+      ${({ type }) => type !== 'product' && `
+        cursor: pointer;
+        text-decoration: underline;
+    ` }
     }
   }
 
