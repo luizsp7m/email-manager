@@ -11,11 +11,14 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 import { useAuth } from '../hooks/useAuth';
+import { useEmail } from '../hooks/useEmail';
 
 export default function Home() {
   const [showModal, setShowModal] = useState(false);
 
   const { user, loadingUser } = useAuth();
+
+  const { emails } = useEmail();
 
   const notify = () => {
     toast.success('E-mail adicionado');
@@ -39,10 +42,9 @@ export default function Home() {
           </Title>
 
           <Table>
-            <Email />
-            <Email />
-            <Email />
-            <Email />
+            { emails.map(email => (
+              <Email key={email.id} props={email} />
+            )) }
           </Table>
         </Main>
       ) : (
@@ -52,10 +54,10 @@ export default function Home() {
   )
 }
 
-function Email() {
+function Email({ props }) {
   return (
     <ItemContainer>
-      <span>Luizoliveira2808@gmail.com</span>
+      <span>{ props.email }</span>
 
       <div className="actions">
         <FaEdit size={20} color={'#B7791F'} className="icon" />
