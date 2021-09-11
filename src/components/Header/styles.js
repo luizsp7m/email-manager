@@ -22,9 +22,29 @@ export const Navbar = styled.div`
   }
 
   > div.navbar-nav {
-    
+    display: flex;
+    align-items: center;
+    gap: 3rem;
 
-    > button.button-signIn {
+    > div.profile {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      cursor: default;
+
+      > img {
+        width: 4rem;
+        border-radius: 50%;
+      }
+
+      > span {
+        color: #f0f0f5;
+        font-weight: 500;
+        font-size: 1.25rem;
+      }
+    }
+
+    > button {
       display: flex;
       align-items: center;
       gap: 1rem;
@@ -35,8 +55,10 @@ export const Navbar = styled.div`
       transition: background .25s;
       cursor: pointer;
 
-      &:hover {
-        background: #fff;
+      > span {
+        font-size: 1.35rem;
+        font-weight: 600;
+        opacity: .9;
       }
 
       > img {
@@ -44,11 +66,25 @@ export const Navbar = styled.div`
         max-width: 2rem;
         height: auto;
       }
+    }
+
+    > button.button-signIn {
+      background: #f0f0f5;
+
+      &:hover {
+        background: #fff;
+      }
+    }
+
+    > button.logout {
+      background: #C53030;
 
       > span {
-        font-size: 1.35rem;
-        font-weight: 600;
-        opacity: .9;
+        color: #fafafa;
+      }
+
+      &:hover {
+        background: #9B2C2C;
       }
     }
   }

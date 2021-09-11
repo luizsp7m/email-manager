@@ -7,26 +7,47 @@ import { FaEdit, FaTrashAlt } from 'react-icons/fa';
 
 import { useState } from 'react';
 
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+import { useAuth } from '../hooks/useAuth';
+
 export default function Home() {
   const [showModal, setShowModal] = useState(false);
 
+  const { user, loadingUser } = useAuth();
+
+  const notify = () => {
+    toast.success('E-mail adicionado');
+  }
+
   return (
     <Container>
-      { showModal && <AddEmail setShowModal={setShowModal} /> }
-      <Header />
-      <Main>
-        <Title>
-          <h1>Lista de e-mails</h1>
-          <button onClick={() => setShowModal(true)}>Adicionar e-mail</button>
-        </Title>
+      {showModal && <AddEmail setShowModal={setShowModal} notify={notify} />}
 
-        <Table>
-          <Email />
-          <Email />
-          <Email />
-          <Email />
-        </Table>
-      </Main>
+      <Header />
+
+      <ToastContainer style={{
+          fontSize: '1.25rem',
+        }} />
+
+      {!loadingUser && user ? (
+        <Main>
+          <Title>
+            <h1>Lista de e-mails</h1>
+            <button onClick={() => setShowModal(true)}>Adicionar e-mail</button>
+          </Title>
+
+          <Table>
+            <Email />
+            <Email />
+            <Email />
+            <Email />
+          </Table>
+        </Main>
+      ) : (
+        <h1>Não está logado</h1>
+      )}
     </Container>
   )
 }

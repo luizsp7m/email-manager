@@ -4,8 +4,10 @@ import { useAuth } from '../../hooks/useAuth';
 
 import Link from 'next/link';
 
+import { FiLogOut } from 'react-icons/fi'
+
 export default function Header() {
-  const { signInWithGoogle } = useAuth();
+  const { signInWithGoogle, user, loadingUser, signOut } = useAuth();
 
   return (
     <Container>
@@ -13,10 +15,26 @@ export default function Header() {
         <Link href="/">Email Manager</Link>
 
         <div className="navbar-nav">
-          {/* <button className="button-signIn" onClick={signInWithGoogle}>
-            <img src="./assets/google.png" alt="Google Icon" />
-            <span>Sign In</span>
-          </button> */}
+          {!loadingUser && user && (
+            <>
+              <div className="profile">
+                <img src={user?.avatar} />
+                <span>{user?.name}</span>
+              </div>
+
+              <button className="logout" onClick={signOut}>
+                <FiLogOut size={20} color={'#fafafa'} />
+                <span>Sair</span>
+              </button>
+            </>
+          )}
+
+          {!loadingUser && !user && (
+            <button className="button-signIn" onClick={signInWithGoogle}>
+              <img src="./assets/google.png" alt="Google Icon" />
+              <span>Sign In</span>
+            </button>
+          )}
         </div>
       </Navbar>
     </Container>
