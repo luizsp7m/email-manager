@@ -13,6 +13,8 @@ import 'react-toastify/dist/ReactToastify.css';
 import { useAuth } from '../hooks/useAuth';
 import { useEmail } from '../hooks/useEmail';
 
+import { useRouter } from 'next/router';
+
 export default function Home() {
   const [showModal, setShowModal] = useState(false);
 
@@ -31,8 +33,8 @@ export default function Home() {
       <Header />
 
       <ToastContainer style={{
-          fontSize: '1.25rem',
-        }} />
+        fontSize: '1.25rem',
+      }} />
 
       {!loadingUser && user ? (
         <Main>
@@ -42,9 +44,9 @@ export default function Home() {
           </Title>
 
           <Table>
-            { emails.map(email => (
+            {emails.map(email => (
               <Email key={email.id} props={email} />
-            )) }
+            ))}
           </Table>
         </Main>
       ) : (
@@ -55,9 +57,11 @@ export default function Home() {
 }
 
 function Email({ props }) {
+  const router = useRouter();
+
   return (
     <ItemContainer>
-      <span>{ props.email }</span>
+      <span onClick={() => router.push(`/email/${props.id}`)}>{props.email}</span>
 
       <div className="actions">
         <FaEdit size={20} color={'#B7791F'} className="icon" />
