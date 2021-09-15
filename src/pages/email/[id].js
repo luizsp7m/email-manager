@@ -54,9 +54,9 @@ export default function Email() {
         </Title>
 
         <Table>
-          { products && products.map(product => (
+          {products && products.map(product => (
             <Product key={product.id} props={product} />
-          )) }
+          ))}
         </Table>
       </Main>
     </Container>
@@ -64,27 +64,27 @@ export default function Email() {
 }
 
 function Product({ props }) {
-  const [status, setStatus] = useState('');
+  const { query } = useRouter();
 
-  async function getStatus() {
-    const status = await Tracker({ code: props.trackingCode });
+  async function deleteProduct() {
+    const result = window.confirm('Apagar produto?');
 
-    setStatus(status);
+    if (result) {
+      await database.ref(`/emails/${query.id}/products/${props.id}`).remove();
+
+      console.log('Removido');
+    }
   }
-
-  useEffect(() => {
-    getStatus();
-  }, []);
 
   return (
     <ItemContainer type={'product'}>
       <span>{props.productName}</span>
       <span>{props.trackingCode}</span>
-      <span>{ status }</span>
+      <span>Status</span>
 
       <div className="actions">
         <FaEdit size={20} color={'#B7791F'} className="icon" />
-        <FaTrashAlt size={20} color={'#C53030'} className="icon" />
+        <FaTrashAlt size={20} color={'#C53030'} className="icon" onClick={deleteProduct} />
       </div>
     </ItemContainer>
   )
