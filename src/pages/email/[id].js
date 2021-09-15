@@ -5,13 +5,16 @@ import AddProduct from '../../components/AddProduct';
 
 import { FaEdit, FaTrashAlt } from 'react-icons/fa';
 
-import { useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 
 import { useRouter } from 'next/router';
 
 import { database } from '../../services/firebase';
 
 import { Tracker } from '../../utils/Tracker';
+
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function Email() {
   const [showModal, setShowModal] = useState(false);
@@ -21,6 +24,10 @@ export default function Email() {
   const [dataEmail, setDataEmail] = useState(null);
 
   const [products, setProducts] = useState([]);
+
+  const notify = () => {
+    toast.success('Produto adicionado');
+  }
 
   useEffect(() => {
     const emailRef = database.ref(`emails/${query.id}`);
@@ -44,8 +51,12 @@ export default function Email() {
 
   return (
     <Container>
-      {showModal && <AddProduct setShowModal={setShowModal} emailRef={query.id} />}
+      {showModal && <AddProduct setShowModal={setShowModal} emailRef={query.id} notify={notify} />}
       <Header />
+
+      <ToastContainer style={{
+        fontSize: '1.25rem',
+      }} />
 
       <Main>
         <Title>
@@ -53,17 +64,21 @@ export default function Email() {
           <button onClick={() => setShowModal(true)}>Adicionar produto</button>
         </Title>
 
-        <Table>
-          {products && products.map(product => (
-            <Product key={product.id} props={product} />
-          ))}
-        </Table>
+        {products.length !== 0 && (
+          <Table>
+            {products && products.map(product => (
+              <Product key={product.id} props={product} />
+            ))}
+          </Table>
+        )}
       </Main>
     </Container>
   );
 }
 
 function Product({ props }) {
+  const [showModal, setShowModal] = useState(false);
+
   const { query } = useRouter();
 
   async function deleteProduct() {
@@ -76,16 +91,25 @@ function Product({ props }) {
     }
   }
 
-  return (
-    <ItemContainer type={'product'}>
-      <span>{props.productName}</span>
-      <span>{props.trackingCode}</span>
-      <span>Status</span>
+  const notify = () => {
+    toast.success('Produto atualizado');
+  }
 
-      <div className="actions">
-        <FaEdit size={20} color={'#B7791F'} className="icon" />
-        <FaTrashAlt size={20} color={'#C53030'} className="icon" onClick={deleteProduct} />
-      </div>
-    </ItemContainer>
+
+  return (
+    <Fragment>
+      {showModal && <AddProduct setShowModal={setShowModal} emailRef={query.id} data={props} notify={notify} />}
+
+      <ItemContainer type={'product'}>
+        <span>{props.productName}</span>
+        <span>{props.trackingCode}</span>
+        <span>Status</span>
+
+        <div className="actions">
+          <FaEdit size={20} color={'#B7791F'} className="icon" onClick={() => setShowModal(true)} />
+          <FaTrashAlt size={20} color={'#C53030'} className="icon" onClick={deleteProduct} />
+        </div>
+      </ItemContainer>
+    </Fragment>
   )
 }

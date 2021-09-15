@@ -7,23 +7,29 @@ import { useState } from 'react';
 import { useAuth } from '../../hooks/useAuth';
 import { database, firebase } from '../../services/firebase';
 
-export default function AddEmail({ setShowModal, notify }) {
-  const [email, setEmail] = useState('');
+export default function AddEmail({ setShowModal, notify, data }) {
+  const [email, setEmail] = useState(data ? data.email : '');
 
   const { user } = useAuth();
+
+  console.log(data);
 
   async function createEmail(event) {
     event.preventDefault();
 
-    const emailRef = database.ref('emails');
-
-    const firebaseEmail = await emailRef.push({
-      email: email, 
-      userId: user.id
-    });
+    if (!data) {
+      await database.ref(`emails`).push({
+        email: email,
+        userId: user.id
+      });
+    } else {
+      await database.ref(`emails/${data.id}`).set({
+        email: email,
+        userId: data.userId
+      });
+    }
 
     notify();
-
 
     setShowModal(false);
   }
@@ -31,7 +37,7 @@ export default function AddEmail({ setShowModal, notify }) {
   return (
     <Container>
       <Form as="form" onSubmit={createEmail}>
-        <h1>Adicionar novo e-mail</h1>
+        <h1>{data ? 'Atualizar e-mail' : 'Adicionar novo e-mail'}</h1>
 
         <div className="input-group">
           <label>E-mail</label>
@@ -43,7 +49,7 @@ export default function AddEmail({ setShowModal, notify }) {
           />
         </div>
 
-        <button type="submit">Adicionar</button>
+        <button type="submit">{ data ? 'Atualizar' : 'Adicionar' }</button>
 
         <MdClose
           size={20}

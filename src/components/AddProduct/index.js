@@ -5,18 +5,29 @@ import { useState } from 'react';
 
 import { database, firebase } from '../../services/firebase';
 
-export default function AddEmail({ setShowModal, emailRef }) {
+export default function AddEmail({ setShowModal, emailRef, data, notify }) {
 
-  const [productName, setProductName] = useState('');
-  const [trackingCode, setTrackingCode] = useState('');
+  console.log(data);
+
+  const [productName, setProductName] = useState(data ? data.productName : '');
+  const [trackingCode, setTrackingCode] = useState(data ? data.trackingCode : '');
 
   async function createProduct(event) {
     event.preventDefault();
 
-    await database.ref(`emails/${emailRef}/products`).push({
-      productName,
-      trackingCode,
-    });
+    if (!data) {
+      await database.ref(`emails/${emailRef}/products`).push({
+        productName,
+        trackingCode,
+      });
+    } else {
+      await database.ref(`emails/${emailRef}/products/${data.id}`).set({
+        productName,
+        trackingCode,
+      });
+    }
+    
+    notify();
 
     setShowModal(false);
   }
@@ -24,7 +35,7 @@ export default function AddEmail({ setShowModal, emailRef }) {
   return (
     <Container>
       <Form as="form" onSubmit={createProduct}>
-        <h1>Adicionar novo produto</h1>
+        <h1>{data ? 'Atualizar produto' : 'Adicionar novo produto'}</h1>
 
         <div className="input-group">
           <label>Nome</label>
@@ -46,7 +57,7 @@ export default function AddEmail({ setShowModal, emailRef }) {
           />
         </div>
 
-        <button type="submit">Adicionar</button>
+        <button type="submit">{data ? 'Atualizar' : 'Adicionar'}</button>
 
         <MdClose
           size={20}

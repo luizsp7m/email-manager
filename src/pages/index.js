@@ -5,7 +5,7 @@ import { Container, Main, Title, Table, ItemContainer } from '../styles/Home';
 
 import { FaEdit, FaTrashAlt } from 'react-icons/fa';
 
-import { useState } from 'react';
+import { Fragment, useState } from 'react';
 
 import { database } from '../services/firebase';
 
@@ -45,11 +45,13 @@ export default function Home() {
             <button onClick={() => setShowModal(true)}>Adicionar e-mail</button>
           </Title>
 
-          <Table>
-            {emails.map(email => (
-              <Email key={email.id} props={email} />
-            ))}
-          </Table>
+          {emails.length !== 0 && (
+            <Table>
+              {emails.map(email => (
+                <Email key={email.id} props={email} />
+              ))}
+            </Table>
+          )}
         </Main>
       ) : (
         <h1>Não está logado</h1>
@@ -61,10 +63,16 @@ export default function Home() {
 function Email({ props }) {
   const router = useRouter();
 
+  const notify = () => {
+    toast.success('E-mail atualizado');
+  }
+
+  const [showModal, setShowModal] = useState(false);
+
   async function deleteEmail() {
     const result = window.confirm('Apagar e-mail?');
 
-    if(result) {
+    if (result) {
       await database.ref(`/emails/${props.id}`).remove();
 
       console.log('Removido');
@@ -72,13 +80,16 @@ function Email({ props }) {
   }
 
   return (
-    <ItemContainer>
-      <span onClick={() => router.push(`/email/${props.id}`)}>{props.email}</span>
+    <Fragment>
+      {showModal && <AddEmail notify={notify} setShowModal={setShowModal} data={props} />}
+      <ItemContainer>
+        <span onClick={() => router.push(`/email/${props.id}`)}>{props.email}</span>
 
-      <div className="actions">
-        <FaEdit size={20} color={'#B7791F'} className="icon" />
-        <FaTrashAlt size={20} color={'#C53030'} className="icon" onClick={deleteEmail} />
-      </div>
-    </ItemContainer>
+        <div className="actions">
+          <FaEdit size={20} color={'#B7791F'} className="icon" onClick={() => setShowModal(true)} />
+          <FaTrashAlt size={20} color={'#C53030'} className="icon" onClick={deleteEmail} />
+        </div>
+      </ItemContainer>
+    </Fragment>
   )
 }
