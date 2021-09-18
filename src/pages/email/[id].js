@@ -16,8 +16,12 @@ import { Tracker } from '../../utils/Tracker';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
+import { useAuth } from '../../hooks/useAuth';
+
 export default function Email() {
   const [showModal, setShowModal] = useState(false);
+
+  const { loadingUser, user } = useAuth();
 
   const { query } = useRouter();
 
@@ -25,11 +29,13 @@ export default function Email() {
 
   const [products, setProducts] = useState([]);
 
+  const [isAuthorized, setIsAuthorized] = useState();
+
   const notify = () => {
     toast.success('Produto adicionado');
   }
 
-  useEffect(() => {
+  async function getProducts() {
     const emailRef = database.ref(`emails/${query.id}`);
 
     emailRef.on('value', snapshot => {
@@ -47,7 +53,17 @@ export default function Email() {
 
       setDataEmail(data);
     });
-  }, [query.id]);
+  }
+
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!loadingUser && !user) {
+      router.push('/');
+    }
+
+    getProducts();
+  }, [loadingUser]);
 
   return (
     <Container>
