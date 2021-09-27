@@ -38,8 +38,8 @@ export default function Home() {
         fontSize: '1.25rem',
       }} />
 
-      {!loadingUser && user ? (
-        <Main>
+      <Main>
+        {!loadingUser && user ? <>
           <Title>
             <h1>Lista de e-mails</h1>
             <button onClick={() => setShowModal(true)}>Adicionar e-mail</button>
@@ -52,10 +52,8 @@ export default function Home() {
               ))}
             </Table>
           )}
-        </Main>
-      ) : (
-        <h1>Não está logado</h1>
-      )}
+        </> : <Title><h1>Entre com uma conta Google para continuar</h1></Title>}
+      </Main>
     </Container>
   )
 }

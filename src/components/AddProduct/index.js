@@ -7,10 +7,9 @@ import { database, firebase } from '../../services/firebase';
 
 export default function AddEmail({ setShowModal, emailRef, data, notify }) {
 
-  console.log(data);
-
   const [productName, setProductName] = useState(data ? data.productName : '');
   const [trackingCode, setTrackingCode] = useState(data ? data.trackingCode : '');
+  const [status, setStatus] = useState(data ? data.status : false);
 
   async function createProduct(event) {
     event.preventDefault();
@@ -19,14 +18,16 @@ export default function AddEmail({ setShowModal, emailRef, data, notify }) {
       await database.ref(`emails/${emailRef}/products`).push({
         productName,
         trackingCode,
+        status,
       });
     } else {
       await database.ref(`emails/${emailRef}/products/${data.id}`).set({
         productName,
         trackingCode,
+        status,
       });
     }
-    
+
     notify();
 
     setShowModal(false);
@@ -56,6 +57,18 @@ export default function AddEmail({ setShowModal, emailRef, data, notify }) {
             value={trackingCode}
           />
         </div>
+
+        {data && (
+          <div className="checkbox">
+            <input
+              type="checkbox"
+              onChange={() => setStatus(!status)}
+              checked={status}
+              value={status}
+            />
+            <span>Já recebi o produto</span>
+          </div>
+        )}
 
         <button type="submit">{data ? 'Atualizar' : 'Adicionar'}</button>
 

@@ -49,9 +49,12 @@ export const Table = styled.div`
 `
 
 export const ItemContainer = styled.div`
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
   align-items: center;
-  justify-content: space-between;
+  /* display: flex;
+  align-items: center;
+  justify-content: space-between; */
   cursor: default;
 
   &:not(:last-child) {
@@ -76,6 +79,8 @@ export const ItemContainer = styled.div`
   > div.actions {
     display: flex;
     gap: 3rem;
+
+    align-items: flex-end;
 
     .icon {
       cursor: pointer;

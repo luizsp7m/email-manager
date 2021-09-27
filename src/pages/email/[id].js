@@ -11,8 +11,6 @@ import { useRouter } from 'next/router';
 
 import { database } from '../../services/firebase';
 
-import { Tracker } from '../../utils/Tracker';
-
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -29,8 +27,6 @@ export default function Email() {
 
   const [products, setProducts] = useState([]);
 
-  const [isAuthorized, setIsAuthorized] = useState();
-
   const notify = () => {
     toast.success('Produto adicionado');
   }
@@ -43,6 +39,10 @@ export default function Email() {
 
       if (data) {
         const products = [];
+
+        if (user.id !== data.userId) {
+          router.push('/');
+        }
 
         for (let id in data.products) {
           products.push({ id, ...data.products[id] });
@@ -95,6 +95,8 @@ export default function Email() {
 function Product({ props }) {
   const [showModal, setShowModal] = useState(false);
 
+  const [status, setStatus] = useState();
+
   const { query } = useRouter();
 
   async function deleteProduct() {
@@ -111,7 +113,6 @@ function Product({ props }) {
     toast.success('Produto atualizado');
   }
 
-
   return (
     <Fragment>
       {showModal && <AddProduct setShowModal={setShowModal} emailRef={query.id} data={props} notify={notify} />}
@@ -119,7 +120,7 @@ function Product({ props }) {
       <ItemContainer type={'product'}>
         <span>{props.productName}</span>
         <span>{props.trackingCode}</span>
-        <span>Status</span>
+        <span>{props.status ? 'Produto recebido' : ''}</span>
 
         <div className="actions">
           <FaEdit size={20} color={'#B7791F'} className="icon" onClick={() => setShowModal(true)} />
