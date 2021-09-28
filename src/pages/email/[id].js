@@ -75,7 +75,7 @@ export default function Email() {
       }} />
 
       <Main>
-        <Title>
+        <Title page={'product'}>
           <h1>Lista de produtos - {dataEmail?.email}</h1>
           <button onClick={() => setShowModal(true)}>Adicionar produto</button>
         </Title>

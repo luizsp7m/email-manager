@@ -12,8 +12,6 @@ export default function AddEmail({ setShowModal, notify, data }) {
 
   const { user } = useAuth();
 
-  console.log(data);
-
   async function createEmail(event) {
     event.preventDefault();
 

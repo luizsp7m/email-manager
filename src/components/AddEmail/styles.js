@@ -27,6 +27,10 @@ export const Form = styled.div`
   flex-direction: column;
   gap: 3rem;
 
+  @media(max-width: 600px) {
+    min-width: 90%;
+  }
+
   > h1 {
     font-size: 2rem;
     font-weight: bold;
@@ -49,8 +53,18 @@ export const Form = styled.div`
       border: 1px solid rgba(0, 0, 0, .05);
       padding: 1.45rem;
       background: #f0f0f5;
-      min-width: 500px;
+      min-width: 498px;
       color: #4A5568;
+
+      @media(max-width: 600px) {
+        min-width: 90%;
+      }
+    }
+
+    @media(max-width: 600px) {
+      > input {
+        width: 90%;
+      }
     }
   }
 

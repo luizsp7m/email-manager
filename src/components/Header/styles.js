@@ -66,6 +66,14 @@ export const Navbar = styled.div`
         max-width: 2rem;
         height: auto;
       }
+
+      @media(max-width: 425px) {
+        padding: 1rem;
+
+        > span {
+          display: none;
+        }
+      }
     }
 
     > button.button-signIn {

@@ -23,7 +23,7 @@ export default function Header() {
               </div>
 
               <button className="logout" onClick={signOut}>
-                <FiLogOut size={20} color={'#fafafa'} />
+                <FiLogOut size={20} color={'#fafafa'} className="icon" />
                 <span>Sair</span>
               </button>
             </>
@@ -31,7 +31,7 @@ export default function Header() {
 
           {!loadingUser && !user && (
             <button className="button-signIn" onClick={signInWithGoogle}>
-              <img src="./assets/google.png" alt="Google Icon" />
+              <img src="./assets/google.png" alt="Google Icon" className="icon" />
               <span>Sign In</span>
             </button>
           )}

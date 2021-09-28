@@ -35,6 +35,14 @@ export const Title = styled.div`
       background: #285E61;
     }
   }
+
+  @media(max-width: 425px) {
+    ${({ page }) => page === 'product' && `
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 2rem;
+    `}
+  }
 `;
 
 export const Table = styled.div`
@@ -49,12 +57,12 @@ export const Table = styled.div`
 `
 
 export const ItemContainer = styled.div`
-  display: grid;
+  /* display: grid;
   grid-template-columns: repeat(4, 1fr);
+  align-items: center; */
+  display: flex;
   align-items: center;
-  /* display: flex;
-  align-items: center;
-  justify-content: space-between; */
+  justify-content: space-between;
   cursor: default;
 
   &:not(:last-child) {
