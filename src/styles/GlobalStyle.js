@@ -20,7 +20,7 @@ const GlobalStyle = createGlobalStyle`
   }
 
   body {
-    background: #f0f0f5;
+    background: ${({ theme }) => theme.background};
   }
 
   @media(max-width: 425px) {
