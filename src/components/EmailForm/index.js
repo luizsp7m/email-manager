@@ -17,10 +17,15 @@ export default function EmailForm({ setModalIsOpen, data }) {
   async function createEmail(event) {
     event.preventDefault();
 
-    await firebase.database().ref('emails').push({
-      email,
-      userId: user.id,
-    });
+    if (!data) {
+      await firebase.database().ref(`/emails/${user.id}`).push({
+        email,
+      });
+    } else {
+      await firebase.database().ref(`/emails/${user.id}/${data.id}`).update({
+        email,
+      });
+    }
 
     setModalIsOpen(false);
   }
@@ -30,7 +35,7 @@ export default function EmailForm({ setModalIsOpen, data }) {
       <button onClick={() => setModalIsOpen(false)}>&times;</button>
 
       <Container as="form" onSubmit={createEmail}>
-        <h1>{ data ? 'Atualizar e-mail' : 'Adicionar e-mail' }</h1>
+        <h1>{data ? 'Atualizar e-mail' : 'Adicionar e-mail'}</h1>
 
         <Input>
           <span>E-mail</span>
@@ -38,6 +43,7 @@ export default function EmailForm({ setModalIsOpen, data }) {
             type="email"
             value={email}
             onChange={({ target }) => setEmail(target.value)}
+            required={true}
           />
         </Input>
 

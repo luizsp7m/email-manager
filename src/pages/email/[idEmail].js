@@ -2,29 +2,30 @@ import { Container, Table, TableHead, TableRow } from '../../styles/Email';
 
 import Layout from '../../components/Layout';
 
+import { Fragment, useState } from 'react';
+
+import ProductForm from '../../components/ProductForm';
+
+import { useProduct } from '../../hooks/useProduct';
+
+import { database } from '../../services/firebase';
+
+import useAuth from '../../hooks/useAuth';
+
+import { useRouter } from 'next/router';
+
 export default function Email() {
-  const products = [{
-    name: 'Nome do produto',
-    tracker: '234455454',
-    status: 'Recebido',
-  }, {
-    name: 'Nome do produto',
-    tracker: '234455454',
-    status: 'Recebido',
-  }, {
-    name: 'Nome do produto',
-    tracker: '234455454',
-    status: 'Recebido',
-  }, {
-    name: 'Nome do produto',
-    tracker: '234455454',
-    status: 'Recebido',
-  }];
+
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+
+  const products = useProduct();
 
   return (
-    <Layout title={'Sei lá'}>
+    <Layout title={'Produtos'}>
       <Container>
-        <button>Adicionar produto</button>
+        {modalIsOpen && <ProductForm setModalIsOpen={setModalIsOpen} />}
+
+        <button onClick={() => setModalIsOpen(true)}>Adicionar produto</button>
 
         <Table>
           <TableHead columns="4">
@@ -33,9 +34,10 @@ export default function Email() {
             <span>Status</span>
           </TableHead>
 
-          {products.map((product, index) => <Product 
+          {products.length !== 0 && products.map((product, index) => <Product
             product={product}
             background={index % 2 === 0 ? '.1' : '.2'}
+            key={index}
           />)}
         </Table>
       </Container>
@@ -44,21 +46,39 @@ export default function Email() {
 }
 
 function Product({ background, product }) {
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+
+  const { user } = useAuth();
+
+  const { query } = useRouter();
+
+  async function deleteEmail() {
+    const result = window.confirm('Apagar produto?');
+
+    if (result) {
+      await database.ref(`/emails/${user.id}/${query.idEmail}/products/${product.id}`).remove()
+    }
+  }
+
   return (
-    <TableRow background={background} columns="4">
-      <span>{product.name}</span>
-      <span>{product.tracker}</span>
-      <span>{product.status}</span>
+    <Fragment>
+      { modalIsOpen && <ProductForm setModalIsOpen={setModalIsOpen} data={product} /> }
 
-      <div>
-        <div className="edit">
-          <img src={`/assets/edit.png`} />
-        </div>
+      <TableRow background={background} columns="4">
+        <span>{product.productName}</span>
+        <span>{product.trackerNumber}</span>
+        <span>{product.status ? 'Recebido' : 'Pendente'}</span>
 
-        <div className="delete">
-          <img src={`/assets/delete.png`} />
+        <div>
+          <div className="edit" onClick={() => setModalIsOpen(true)}>
+            <img src={`/assets/edit.png`} />
+          </div>
+
+          <div className="delete" onClick={deleteEmail}>
+            <img src={`/assets/delete.png`} />
+          </div>
         </div>
-      </div>
-    </TableRow>
+      </TableRow>
+    </Fragment>
   );
 }

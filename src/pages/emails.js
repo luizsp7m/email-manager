@@ -4,20 +4,21 @@ import { Container, Table, TableHead, TableRow, Wrapper } from "../styles/Email"
 
 import Link from 'next/link';
 
+import { database } from '../services/firebase';
+
 import EmailForm from '../components/EmailForm';
 
 import { Fragment, useState } from 'react';
 
+import { useEmail } from '../hooks/useEmail';
+
+import useAuth from '../hooks/useAuth';
+
 export default function Email() {
-  const emailList = new Array({
-    email: 'luiz@gmail.com'
-  }, {
-    email: 'antonio@gmail.com'
-  }, {
-    email: 'souza@gmail.com'
-  });
 
   const [modalIsOpen, setModalIsOpen] = useState(false);
+
+  const emails = useEmail();
 
   return (
     <Layout title={`E-mails`}>
@@ -31,7 +32,7 @@ export default function Email() {
             <span>E-mail</span>
           </TableHead>
 
-          {emailList.map((email, index) => (
+          {emails.length !== 0 && emails.map((email, index) => (
             <EmailContainer
               email={email}
               background={index % 2 === 0 ? '.1' : '.2'}
@@ -50,12 +51,22 @@ function EmailContainer({ background, email }) {
 
   const [modalIsOpen, setModalIsOpen] = useState(false);
 
+  const { user } = useAuth();
+
+  async function deleteEmail() {
+    const result = window.confirm('Apagar e-mail?');
+
+    if (result) {
+      await database.ref(`/emails/${user.id}/${email.id}`).remove();
+    }
+  }
+
   return (
     <Fragment>
       {modalIsOpen && <EmailForm setModalIsOpen={setModalIsOpen} data={email} />}
 
       <TableRow background={background} columns="2">
-        <Link href={`/email/${email.email}`}>
+        <Link href={`/email/${email.id}`}>
           <span className="redirect">{email.email}</span>
         </Link>
 
@@ -64,7 +75,7 @@ function EmailContainer({ background, email }) {
             <img src={`/assets/edit.png`} />
           </div>
 
-          <div className="delete">
+          <div className="delete" onClick={deleteEmail}>
             <img src={`/assets/delete.png`} />
           </div>
         </div>

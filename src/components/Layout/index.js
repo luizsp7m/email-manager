@@ -7,6 +7,7 @@ import Sidebar from "../Sidebar";
 import Header from '../Header';
 
 import useAuth from '../../hooks/useAuth';
+
 import { Fragment } from 'react';
 
 export default function Layout({ title = 'Página sem título', children }) {
@@ -28,8 +29,7 @@ export default function Layout({ title = 'Página sem título', children }) {
           <Header title={title} />
 
           <Sidebar />
-
-
+          
           <Content>
             {children}
           </Content>
