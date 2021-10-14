@@ -31,12 +31,14 @@ function AuthProvider({ children }) {
       });
     }
 
+    Router.push('/');
+
     setLoadingUser(false);
   }
 
-  async function signOut() {
+  async function logout() {
     firebase.auth().signOut();
-    Router.reload(window.location.pathname);
+    // Router.reload(window.location.pathname);
   }
 
   useEffect(() => {
@@ -66,7 +68,7 @@ function AuthProvider({ children }) {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ signInWithGoogle, signOut, user, loadingUser }}>
+    <AuthContext.Provider value={{ signInWithGoogle, logout, user, loadingUser }}>
       {children}
     </AuthContext.Provider>
   );

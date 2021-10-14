@@ -8,6 +8,10 @@ export const Container = styled.div`
   width: 70px;
   position: fixed;
   background: ${({ theme }) => theme.sidebar};
+
+  @media(max-width: 425px) {
+    
+  }
 `;
 
 export const Nav = styled.div`
@@ -19,6 +23,10 @@ export const Nav = styled.div`
     align-items: center;
 
     color: #fafafa;
+  }
+
+  .selected {
+    background: #222f3e;
   }
 
   > div.nav-item {

@@ -3,9 +3,13 @@ import { ThemeProvider } from 'styled-components'
 import { AuthProvider } from '../contexts/AuthContext';
 
 import GlobalStyle from '../styles/GlobalStyle';
+
 import { Dark, Light } from '../styles/Themes';
 
 import { Router } from 'next/dist/client/router';
+
+import { AppProvider } from '../contexts/AppContext';
+
 import NProgress from 'nprogress';
 import 'nprogress/nprogress.css';
 
@@ -29,11 +33,13 @@ Router.events.on('routeChangeError', () => {
 
 export default function App({ Component, pageProps }) {
   return (
-    <AuthProvider>
-      <ThemeProvider theme={Dark}>
-        <Component {...pageProps} />
-        <GlobalStyle />
-      </ThemeProvider>
-    </AuthProvider>
+    <AppProvider>
+      <AuthProvider>
+        <ThemeProvider theme={Dark}>
+          <Component {...pageProps} />
+          <GlobalStyle />
+        </ThemeProvider>
+      </AuthProvider>
+    </AppProvider>
   )
 }

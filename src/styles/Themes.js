@@ -3,6 +3,8 @@ const Dark = {
   sidebar: '#161B22',
   text: '#fafafa',
   signout: '#d63031',
+  modal: '#161B22',
+  backgroundModal: 'rgba(255, 255, 255, .15)',
 }
 
 const Light = {
