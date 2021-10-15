@@ -10,19 +10,37 @@ export const Container = styled.div`
   background: ${({ theme }) => theme.sidebar};
 
   @media(max-width: 425px) {
-    
+    width: 100%;
+    height: 70px;
+    bottom: 0;
+    flex-direction: row;
+    justify-content: space-between;
   }
 `;
 
 export const Nav = styled.div`
+  @media(max-width: 425px) {
+    display: flex;
+    width: 100%;
+  }
+
   > div {
     width: 70px;
     height: 70px;
     display: flex;
     justify-content: center;
     align-items: center;
-
     color: #fafafa;
+
+    @media(max-width: 425px) {
+      width: 50%;
+    }
+  }
+
+  > div.logo {
+    @media(max-width: 425px) {
+      display: none
+    }
   }
 
   .selected {
@@ -59,6 +77,10 @@ export const SignOut = styled.div`
   flex-direction: column;
   gap: 1rem;
   cursor: pointer;
+
+  @media(max-width: 425px) {
+    display: none
+  }
 
   &:hover {
     background: #c0392b;

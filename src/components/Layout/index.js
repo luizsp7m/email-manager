@@ -8,11 +8,21 @@ import Header from '../Header';
 
 import useAuth from '../../hooks/useAuth';
 
-import { Fragment } from 'react';
+import { Fragment, useEffect } from 'react';
+
+import { ToastContainer, toast } from 'react-toastify';
+
+import 'react-toastify/dist/ReactToastify.css';
+
+import router from 'next/router';
 
 export default function Layout({ title = 'Página sem título', children }) {
 
   const { user, loadingUser } = useAuth();
+
+  useEffect(() => {
+    !loadingUser && !user && router.push('/login')
+  }, [loadingUser]);
 
   return (
     <Container>
@@ -22,10 +32,12 @@ export default function Layout({ title = 'Página sem título', children }) {
 
       {loadingUser && <h1>Carregando</h1>}
 
-      {!loadingUser && !user && <h1>Redirecionar</h1>}
-
       {!loadingUser && user && (
         <Fragment>
+          <ToastContainer style={{
+            fontSize: '1.35rem'
+          }} />
+          
           <Header title={title} />
 
           <Sidebar />

@@ -12,6 +12,10 @@ export const Container = styled.div`
   justify-content: space-between;
   border-bottom: 1px solid rgba(0, 0, 0, .15);
 
+  @media(max-width: 425px) {
+    width: 100%;
+  }
+
   > div.title {
     color: ${({ theme }) => theme.text};
     font-size: 1.35rem;

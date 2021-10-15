@@ -1,6 +1,6 @@
 import Layout from '../components/Layout';
 
-import { Container, Table, TableHead, TableRow, Wrapper } from "../styles/Email";
+import { Container, Table, TableHead, TableRow, Row } from "../styles/Email";
 
 import Link from 'next/link';
 
@@ -25,7 +25,11 @@ export default function Email() {
       <Container>
         {modalIsOpen && <EmailForm setModalIsOpen={setModalIsOpen} />}
 
-        <button onClick={() => setModalIsOpen(true)}>Adicionar e-mail</button>
+        <Row>
+          <h5>Lista de e-mails</h5>
+
+          <button onClick={() => setModalIsOpen(true)}>Adicionar e-mail</button>
+        </Row>
 
         <Table>
           <TableHead columns="2">
@@ -66,7 +70,7 @@ function EmailContainer({ background, email }) {
       {modalIsOpen && <EmailForm setModalIsOpen={setModalIsOpen} data={email} />}
 
       <TableRow background={background} columns="2">
-        <Link href={`/email/${email.id}`}>
+        <Link href={`/email/${email.id}?email=${email.email}`}>
           <span className="redirect">{email.email}</span>
         </Link>
 

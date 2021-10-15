@@ -10,6 +10,8 @@ import { firebase } from '../../services/firebase';
 
 import useAuth from '../../hooks/useAuth';
 
+import { toast } from 'react-toastify';
+
 export default function ProductForm({ setModalIsOpen, data }) {
 
   const [productName, setProductName] = useState(data ? data.productName : '');
@@ -27,10 +29,14 @@ export default function ProductForm({ setModalIsOpen, data }) {
       await firebase.database().ref(`/emails/${user.id}/${query.idEmail}/products`).push({
         productName, trackerNumber, status
       });
+
+      toast.success('Produto adicionado');
     } else {
       await firebase.database().ref(`/emails/${user.id}/${query.idEmail}/products/${data.id}`).update({
         productName, trackerNumber, status
       });
+
+      toast.success('Produto atualizado');
     }
 
     setModalIsOpen(false);
@@ -59,7 +65,6 @@ export default function ProductForm({ setModalIsOpen, data }) {
             type="text"
             value={trackerNumber}
             onChange={({ target }) => setTrackerNumber(target.value)}
-            required={true}
           />
         </Input>
 

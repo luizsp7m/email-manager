@@ -28,7 +28,7 @@ export default function Login() {
           <span>Continuar com Google</span>
         </button>
 
-        <h5>Ou</h5>
+        {/* <h5>Ou</h5>
 
         <Input>
           <span>E-mail</span>
@@ -50,7 +50,7 @@ export default function Login() {
 
         <span onClick={() => mode === 'signIn' ? setMode('signUp') : setMode('signIn')}>
           {mode === 'signIn' ? 'Crie uma conta' : 'Já possui uma conta?'}
-        </span>
+        </span> */}
       </Form>
     </Container>
   );

@@ -8,6 +8,8 @@ import { firebase } from '../../services/firebase';
 
 import useAuth from '../../hooks/useAuth';
 
+import { toast } from 'react-toastify';
+
 export default function EmailForm({ setModalIsOpen, data }) {
 
   const [email, setEmail] = useState(data ? data.email : '');
@@ -21,10 +23,14 @@ export default function EmailForm({ setModalIsOpen, data }) {
       await firebase.database().ref(`/emails/${user.id}`).push({
         email,
       });
+
+      toast.success('E-mail adicionado');
     } else {
       await firebase.database().ref(`/emails/${user.id}/${data.id}`).update({
         email,
       });
+
+      toast.success('E-mail atualizado');
     }
 
     setModalIsOpen(false);

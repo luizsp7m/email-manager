@@ -38,7 +38,7 @@ function AuthProvider({ children }) {
 
   async function logout() {
     firebase.auth().signOut();
-    // Router.reload(window.location.pathname);
+    Router.reload(window.location.pathname);
   }
 
   useEffect(() => {

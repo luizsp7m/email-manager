@@ -1,6 +1,8 @@
-import { Container, Table, TableHead, TableRow } from '../../styles/Email';
+import { Container, Table, TableHead, TableRow, Row } from '../../styles/Email';
 
 import Layout from '../../components/Layout';
+
+import Link from 'next/link';
 
 import { Fragment, useState } from 'react';
 
@@ -20,12 +22,21 @@ export default function Email() {
 
   const products = useProduct();
 
+  const { query } = useRouter();
+
   return (
     <Layout title={'Produtos'}>
       <Container>
         {modalIsOpen && <ProductForm setModalIsOpen={setModalIsOpen} />}
 
-        <button onClick={() => setModalIsOpen(true)}>Adicionar produto</button>
+        <Link href="/emails">
+          <button>Voltar</button>
+        </Link>
+
+        <Row>
+          <h5>{query.email}</h5>
+          <button onClick={() => setModalIsOpen(true)}>Adicionar produto</button>
+        </Row>
 
         <Table>
           <TableHead columns="4">
@@ -62,7 +73,7 @@ function Product({ background, product }) {
 
   return (
     <Fragment>
-      { modalIsOpen && <ProductForm setModalIsOpen={setModalIsOpen} data={product} /> }
+      {modalIsOpen && <ProductForm setModalIsOpen={setModalIsOpen} data={product} />}
 
       <TableRow background={background} columns="4">
         <span>{product.productName}</span>
