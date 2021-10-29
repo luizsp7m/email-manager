@@ -38,6 +38,9 @@ export const Nav = styled.div`
   }
 
   > div.logo {
+    border-bottom: 1px solid rgba(0, 0, 0, .15);
+    /* background: linear-gradient(100deg, #0fbcf9 0%, #1e272e 100%); */
+
     @media(max-width: 425px) {
       display: none
     }

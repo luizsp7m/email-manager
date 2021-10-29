@@ -42,6 +42,7 @@ export const TableHead = styled.div`
   border-top-right-radius: .5rem;
   padding: 2.25rem;
   align-items: center;
+  justify-items: center;
 
   @media(max-width: 945px) {
     width: 815px;
@@ -61,6 +62,8 @@ export const TableRow = styled.div`
   background: rgba(0, 0, 0, ${({ background }) => background});
 
   align-items: center;
+
+  justify-items: center;
 
   @media(max-width: 945px) {
     width: 815px;

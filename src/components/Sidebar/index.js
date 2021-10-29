@@ -15,7 +15,7 @@ export default function Sidebar() {
     <Container>
       <Nav>
         <div className={`logo`}>
-          Logo
+          
         </div>
 
         <Link href={`/`} passHref>

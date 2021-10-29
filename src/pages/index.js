@@ -8,7 +8,7 @@ export default function Dashboard() {
       <Container>
         <h1 style={{
           color: '#fafafa',
-        }}>Tela de início</h1>
+        }}>Início</h1>
       </Container>
     </Layout>
   );

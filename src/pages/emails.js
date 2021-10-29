@@ -8,7 +8,7 @@ import { database } from '../services/firebase';
 
 import EmailForm from '../components/EmailForm';
 
-import { Fragment, useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 
 import { useEmail } from '../hooks/useEmail';
 
@@ -32,8 +32,9 @@ export default function Email() {
         </Row>
 
         <Table>
-          <TableHead columns="2">
+          <TableHead columns="3">
             <span>E-mail</span>
+            <span>Produtos</span>
           </TableHead>
 
           {emails.length !== 0 && emails.map((email, index) => (
@@ -55,6 +56,8 @@ function EmailContainer({ background, email }) {
 
   const [modalIsOpen, setModalIsOpen] = useState(false);
 
+  const [productsLength, setProductLength] = useState(0);
+
   const { user } = useAuth();
 
   async function deleteEmail() {
@@ -65,14 +68,28 @@ function EmailContainer({ background, email }) {
     }
   }
 
+  useEffect(() => {
+    if(email.products) {
+      let length = 0;
+
+      for(let id in email.products) {
+        length = length + 1;
+      }
+
+      setProductLength(length);
+    }
+  }, []);
+
   return (
     <Fragment>
       {modalIsOpen && <EmailForm setModalIsOpen={setModalIsOpen} data={email} />}
 
-      <TableRow background={background} columns="2">
+      <TableRow background={background} columns="3">
         <Link href={`/email/${email.id}?email=${email.email}`}>
           <span className="redirect">{email.email}</span>
         </Link>
+
+        <span>{productsLength}</span>
 
         <div>
           <div className="edit" onClick={() => setModalIsOpen(true)}>

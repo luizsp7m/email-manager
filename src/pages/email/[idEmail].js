@@ -4,7 +4,7 @@ import Layout from '../../components/Layout';
 
 import Link from 'next/link';
 
-import { Fragment, useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 
 import ProductForm from '../../components/ProductForm';
 
@@ -58,6 +58,8 @@ export default function Email() {
 
 function Product({ background, product }) {
   const [modalIsOpen, setModalIsOpen] = useState(false);
+
+  const [trackStatus, setTrackStatus] = useState("Informação não disponível");
 
   const { user } = useAuth();
 
