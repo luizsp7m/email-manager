@@ -30,8 +30,6 @@ export default function Layout({ title = 'Página sem título', children }) {
         <title>E-mail Manager | {title}</title>
       </Head>
 
-      {loadingUser && <h1>Carregando</h1>}
-
       {!loadingUser && user && (
         <Fragment>
           <ToastContainer style={{
