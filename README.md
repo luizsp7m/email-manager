@@ -12,12 +12,12 @@ A ideia para a criação dessa aplicação surgiu da minha necessidade de gerenc
 - Realizar logout
 - Cadastrar e-mails
 - Atualizar e-mails
-- Deletear e-mails
-- Ver a quantidade de produtos cadastros no e-mail
+- Deletar e-mails
+- Ver a quantidade de produtos cadastrados no e-mail
 - Cadastrar produtos no e-mail
-- Atualizar produtos cadastros no e-mail
-- Deletar produtos cadastros no e-mail
-- Ver nome, código de rastreio e status de produtos cadastros no e-mail
+- Atualizar produtos cadastrados no e-mail
+- Deletar produtos cadastrados no e-mail
+- Ver nome, código de rastreio e status de produtos cadastrados no e-mail
 
 ### Tecnologias
 - Next.js
